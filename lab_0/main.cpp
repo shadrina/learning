@@ -1,5 +1,6 @@
 #include "module1.h"
 #include "module2.h"
+#include "module3.h"
 #include <iostream>
 
 int main(int argc, char** argv)
@@ -32,5 +33,13 @@ int main(int argc, char** argv)
     using Module2::getMyName;
     //используем функцию getMyName(), объявленную в пространстве имен Module2
     std::cout << getMyName() << "\n";
+
+    //COMPILATION ERROR
+    //повторное using-объявление
+    /*
+     * using Module3::getMyName;
+     * std::cout << getMyName() << "\n";
+    */
+    std::cout << Module3::getMyName() << "\n";
 
 }

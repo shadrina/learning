@@ -11,6 +11,8 @@ module1.h
 C:/Users/1/CLionProjects/lab_0/module1.h
 module2.h
 C:/Users/1/CLionProjects/lab_0/module2.h
+module3.h
+C:/Users/1/CLionProjects/lab_0/module3.h
 iostream
 -
 
@@ -27,6 +29,14 @@ module2.h
 C:/Users/1/CLionProjects/lab_0/module2.h
 
 C:/Users/1/CLionProjects/lab_0/module2.h
+string
+-
+
+C:/Users/1/CLionProjects/lab_0/module3.cpp
+module3.h
+C:/Users/1/CLionProjects/lab_0/module3.h
+
+C:/Users/1/CLionProjects/lab_0/module3.h
 string
 -
 

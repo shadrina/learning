@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/1/CLionProjects/lab_0/main.cpp" "C:/Users/1/CLionProjects/lab_0/cmake-build-debug/CMakeFiles/lab_0.dir/main.cpp.obj"
   "C:/Users/1/CLionProjects/lab_0/module1.cpp" "C:/Users/1/CLionProjects/lab_0/cmake-build-debug/CMakeFiles/lab_0.dir/module1.cpp.obj"
   "C:/Users/1/CLionProjects/lab_0/module2.cpp" "C:/Users/1/CLionProjects/lab_0/cmake-build-debug/CMakeFiles/lab_0.dir/module2.cpp.obj"
+  "C:/Users/1/CLionProjects/lab_0/module3.cpp" "C:/Users/1/CLionProjects/lab_0/cmake-build-debug/CMakeFiles/lab_0.dir/module3.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

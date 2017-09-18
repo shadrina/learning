@@ -97,6 +97,12 @@
 		<Unit filename="C:/Users/1/CLionProjects/lab_0/module2.h">
 			<Option target="lab_0"/>
 		</Unit>
+		<Unit filename="C:/Users/1/CLionProjects/lab_0/module3.cpp">
+			<Option target="lab_0"/>
+		</Unit>
+		<Unit filename="C:/Users/1/CLionProjects/lab_0/module3.h">
+			<Option target="lab_0"/>
+		</Unit>
 		<Unit filename="C:/Users/1/CLionProjects/lab_0/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

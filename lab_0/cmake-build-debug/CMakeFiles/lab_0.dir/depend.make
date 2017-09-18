@@ -4,10 +4,14 @@
 CMakeFiles/lab_0.dir/main.cpp.obj: ../main.cpp
 CMakeFiles/lab_0.dir/main.cpp.obj: ../module1.h
 CMakeFiles/lab_0.dir/main.cpp.obj: ../module2.h
+CMakeFiles/lab_0.dir/main.cpp.obj: ../module3.h
 
 CMakeFiles/lab_0.dir/module1.cpp.obj: ../module1.cpp
 CMakeFiles/lab_0.dir/module1.cpp.obj: ../module1.h
 
 CMakeFiles/lab_0.dir/module2.cpp.obj: ../module2.cpp
 CMakeFiles/lab_0.dir/module2.cpp.obj: ../module2.h
+
+CMakeFiles/lab_0.dir/module3.cpp.obj: ../module3.cpp
+CMakeFiles/lab_0.dir/module3.cpp.obj: ../module3.h
 
