@@ -3,18 +3,20 @@
 #include "module3.h"
 #include <iostream>
 
+using namespace std;
+
 int main(int argc, char** argv)
 {
-    std::cout << "Hello world!" << "\n";
+    cout << "Hello world!" << "\n";
 
-    std::cout << Module1::getMyName() << "\n";
-    std::cout << Module2::getMyName() << "\n";
+    cout << Module1::getMyName() << "\n";
+    cout << Module2::getMyName() << "\n";
 
     using namespace Module1;
     //используем функцию getMyName(), объявленную в пространстве имен Module1
-    std::cout << getMyName() << "\n";
+    cout << getMyName() << "\n";
     //используем функцию getMyName(), объявленную в пространстве имен Module2
-    std::cout << Module2::getMyName() << "\n";
+    cout << Module2::getMyName() << "\n";
 
     //using namespace Module2; // (B)
     /*
@@ -28,18 +30,18 @@ int main(int argc, char** argv)
      * локальное объявление имени. Using-директива делает доступными все имена из данного пространства
      * имен, но не объявляет их локально."
     */
-    //std::cout << getMyName() << "\n"; // COMPILATION ERROR (C)
+    //cout << getMyName() << "\n"; // COMPILATION ERROR (C)
 
     using Module2::getMyName;
     //используем функцию getMyName(), объявленную в пространстве имен Module2
-    std::cout << getMyName() << "\n";
+    cout << getMyName() << "\n";
 
     //COMPILATION ERROR
     //повторное using-объявление
     /*
      * using Module3::getMyName;
-     * std::cout << getMyName() << "\n";
+     * cout << getMyName() << "\n";
     */
-    std::cout << Module3::getMyName() << "\n";
+    cout << Module3::getMyName() << "\n";
 
 }
