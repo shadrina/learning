@@ -14,8 +14,12 @@ int main(int argc, char** argv) {
 
     ifstream fin(argv[1]);
     ofstream fout(argv[2]);
-    list<string> stringsList;
+    if (!fin.is_open() || !fout.is_open()) {
+        cout << "can't open files";
+        return 0;
+    }
 
+    list<string> stringsList;
     string s;
     while (!fin.eof()) {
         getline(fin, s);
