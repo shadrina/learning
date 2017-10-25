@@ -10,13 +10,12 @@ private:
     unsigned int ptr_last;
     class Reference {
     private:
+        TritSet *set;
         unsigned int *ptr;
-        unsigned int index;
-        void set_trit(int, int);
-        void set_bit(int, int);
+        unsigned int bit_shift;
         Reference();
     public:
-        Reference(unsigned int *, unsigned int);
+        Reference(TritSet *, unsigned int, unsigned int);
         ~Reference();
         Reference& operator=(Trit);
         Reference& operator=(const Reference&);
@@ -28,6 +27,7 @@ public:
     explicit TritSet(unsigned int capacity_);
     ~TritSet();
     Reference operator[](unsigned int);
+    unsigned int * get_set() const;
     unsigned int get_capacity() const;
     unsigned int get_byte_capacity() const;
 };
