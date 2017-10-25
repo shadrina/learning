@@ -7,13 +7,15 @@ TritSet::Reference::Reference(TritSet *set_, unsigned int byte_shift_, unsigned 
 TritSet::Reference::~Reference() {};
 TritSet::Reference& TritSet::Reference::operator=(Trit t) {
     int shift = uint_bit_size - bit_shift - 1;
-    int mask = ~(0b11 << shift);
+    unsigned int mask = ~(0b11 << shift);
     *ptr = *ptr & mask;
     switch (t) {
         case FALSE:
             mask = 0b1 << shift;
             break;
-        case UNKNOWN: break;
+        case UNKNOWN:
+            mask = 0;
+            break;
         case TRUE:
             mask = 0b10 << shift;
             break;
@@ -33,7 +35,7 @@ Trit TritSet::Reference::operator~() const {
     return UNKNOWN;
 }
 TritSet::Reference::operator Trit() const {
-    int bits = 0b11 & (*ptr >> uint_bit_size - bit_shift);
+    int bits = 0b11 & (*ptr >> uint_bit_size - bit_shift - 1);
     if (bits == 0b10) return TRUE;
     if (bits == 0b1) return FALSE;
     return UNKNOWN;

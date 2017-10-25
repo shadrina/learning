@@ -5,7 +5,7 @@ using namespace std;
 
 void print_set(TritSet& set) {
     for (int i = 0; i < set.get_capacity(); i++)
-        cout << i << ":  " << set[i] << ", ";
+        cout << set[i] << ", ";
     cout << endl;
 }
 
@@ -20,17 +20,11 @@ int main() {
     print_set(set);
 
     for (int i = 0; i < set.get_capacity(); i++)
-        set[i] = TRUE;
+        set[i] = FALSE;
     print_set(set);
-
-    set[0] = FALSE;
-    for (int i = 1; i < set.get_capacity(); i++)
-        set[i] = set[i - 1];
+    set[0] = TRUE;
+    set[1] = set[0];
     print_set(set);
-
-
-    Trit test = set[5];
-    cout << endl;
-    cout << "set[5]: " << test;
+    if (set[1] == set[0]) cout << "Ok.";
     return 0;
 }
