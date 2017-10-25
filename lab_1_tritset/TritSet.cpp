@@ -1,34 +1,24 @@
 #include <iostream>
 #include "TritSet.h"
 
-void TritSet::Reference::set_trit(int bit1, int bit2) {
-    set_bit(bit1, index);
-    set_bit(bit2, index + 1);
-}
-
-void TritSet::Reference::set_bit(int bit, int numb) {
-    int mask = 1 << (uint_bit_size - numb);
-    if (bit == 0) {
-        mask = ~mask;
-        *ptr = *ptr & mask;
-    }
-    else *ptr = *ptr | mask;
-}
 TritSet::Reference::Reference() = default;
-TritSet::Reference::Reference(unsigned int *ptr_, unsigned int index_) : ptr(ptr_), index(index_) {}
+TritSet::Reference::Reference(TritSet *set_, unsigned int byte_shift_, unsigned int bit_shift_)
+        : set(set_), ptr(set->get_set() + byte_shift_), bit_shift(bit_shift_) {}
 TritSet::Reference::~Reference() = default;
 TritSet::Reference& TritSet::Reference::operator=(Trit t) {
+    int shift = uint_bit_size - bit_shift - 1;
+    int mask = ~(0b11 << shift);
+    *ptr = *ptr & mask;
     switch (t) {
         case FALSE:
-            set_trit(false, true);
+            mask = 0b1 << shift;
             break;
-        case UNKNOWN:
-            set_trit(false, false);
-            break;
+        case UNKNOWN: break;
         case TRUE:
-            set_trit(true, false);
+            mask = 0b10 << shift;
             break;
     }
+    *ptr = *ptr | mask;
     return *this;
 }
 
@@ -43,8 +33,8 @@ Trit TritSet::Reference::operator~() const {
     return UNKNOWN;
 }
 TritSet::Reference::operator Trit() const {
-    int bit1 = 1 & ((*ptr) >> uint_bit_size - index);
-    int bit2 = 1 & ((*ptr) >> uint_bit_size - index + 1);
+    int bit1 = 1 & ((*ptr) >> uint_bit_size - bit_shift);
+    int bit2 = 1 & ((*ptr) >> uint_bit_size - bit_shift + 1);
     if (bit1 == 1) return TRUE;
     if (bit2 == 1) return FALSE;
     return UNKNOWN;
@@ -64,8 +54,7 @@ TritSet::TritSet(unsigned int capacity_) {
     std::cout << "Created set." << std::endl;
 }
 TritSet::~TritSet() {
-    //???
-    //delete data;
+    delete[] data;
     data = nullptr;
 }
 
@@ -75,7 +64,11 @@ TritSet::Reference TritSet::operator[](unsigned int x) {
     x++;
     unsigned int index = x % uint_capacity;
     if (index == 0) index = uint_capacity;
-    return Reference(this->data + (x / uint_capacity - 1), index * 2 - 1);
+    return Reference(this, x / uint_capacity, index * 2 - 1);
+}
+
+unsigned int * TritSet::get_set() const {
+    return data;
 }
 
 unsigned int TritSet::get_capacity() const {
