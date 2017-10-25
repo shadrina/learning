@@ -3,28 +3,16 @@
 
 using namespace std;
 
-void print_set(TritSet& set) {
-    for (int i = 0; i < set.get_capacity(); i++)
-        cout << set[i] << ", ";
-    cout << endl;
-}
-
 int main() {
-    unsigned int N;
-    cout << "Enter capacity:" << endl;
-    cin >> N;
-    TritSet set(N);
+    TritSet set(2);
+    TritSet set_(2);
+    set_[0] = FALSE;
+    set_[1] = ~set_[0];
+    cout << "init :" << endl << set_ << endl;
+    set = ~set_;
+    cout << "~set_ :" << endl << set << endl;
+    set = set & set_;
+    cout << "set & set_ :" << endl << set << endl;
 
-    cout << "Capacity in trits: " << set.get_capacity() << endl;
-    cout << "Capacity in bytes: " << set.get_byte_capacity() << endl;
-    print_set(set);
-
-    for (int i = 0; i < set.get_capacity(); i++)
-        set[i] = FALSE;
-    print_set(set);
-    set[0] = TRUE;
-    set[1] = set[0];
-    print_set(set);
-    if (set[1] == set[0]) cout << "Ok.";
     return 0;
 }
