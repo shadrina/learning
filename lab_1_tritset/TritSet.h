@@ -19,9 +19,7 @@ public:
         unsigned int *ptr;
         unsigned int bit_shift;
     public:
-        Reference();
         Reference(TritSet const *, unsigned int, unsigned int);
-        ~Reference();
         Reference& operator=(Trit);
         Reference& operator=(const Reference&);
         Trit operator~() const;

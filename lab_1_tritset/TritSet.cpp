@@ -1,64 +1,6 @@
 #include <iostream>
 #include "TritSet.h"
 
-TritSet::Reference::Reference() = default;
-TritSet::Reference::Reference(TritSet const *set_, unsigned int byte_shift_, unsigned int bit_shift_)
-        : set(set_), ptr(set->get_set() + byte_shift_), bit_shift(bit_shift_) {}
-TritSet::Reference::~Reference() = default;
-TritSet::Reference & TritSet::Reference::operator=(Trit t) {
-    //check bounds and use reallocate!
-    int shift = uint_bit_size - bit_shift - 1;
-    int mask = ~(0b11 << shift);
-    *ptr = *ptr & mask;
-    switch (t) {
-        case FALSE:
-            mask = FALSE_bits << shift;
-            break;
-        case UNKNOWN:
-            mask = 0;
-            break;
-        case TRUE:
-            mask = TRUE_bits << shift;
-            break;
-    }
-    *ptr = *ptr | mask;
-    return *this;
-}
-TritSet::Reference & TritSet::Reference::operator=(TritSet::Reference const & rvalue) {
-    *this = (Trit)rvalue;
-    return *this;
-}
-Trit TritSet::Reference::operator~() const {
-    Trit t = *this;
-    if (t == TRUE) return FALSE;
-    if (t == FALSE) return TRUE;
-    return UNKNOWN;
-}
-Trit TritSet::Reference::operator&(Trit t1) const {
-    Trit t2 = *this;
-    if ((t1 == TRUE && (t2 == TRUE || t2 == UNKNOWN)) || (t2 == TRUE && t1 == UNKNOWN)) return TRUE;
-    if (t1 == FALSE || t2 == FALSE) return FALSE;
-    return UNKNOWN;
-}
-Trit TritSet::Reference::operator|(Trit t1) const {
-    Trit t2 = *this;
-    if (t1 == TRUE || t2 == TRUE) return TRUE;
-    if (t1 == UNKNOWN || t2 == UNKNOWN) return UNKNOWN;
-    return FALSE;
-}
-TritSet::Reference::operator Trit() const {
-    int bits = 0b11 & (*ptr >> uint_bit_size - bit_shift - 1);
-    if (bits == TRUE_bits) return TRUE;
-    if (bits == FALSE_bits) return FALSE;
-    return UNKNOWN;
-}
-std::ostream& operator<<(std::ostream &o, const TritSet::Reference& t) {
-    if (t == TRUE)    o << "T";
-    if (t == FALSE)   o << "F";
-    if (t == UNKNOWN) o << "U";
-    return o;
-}
-
 TritSet::TritSet() {
     this->capacity = 0;
     this->data = nullptr;
@@ -92,6 +34,7 @@ TritSet::Reference TritSet::operator[](unsigned int x) const {
 //differences between copy constructor and operator=?
 //(except deleting previous data)
 TritSet & TritSet::operator=(const TritSet & set) {
+    //reallocate
     this->capacity = set.capacity;
     delete[] this->data;
     this->data = new unsigned int[set.capacity];
@@ -101,7 +44,7 @@ TritSet & TritSet::operator=(const TritSet & set) {
     return *this;
 }
 TritSet TritSet::operator~() const {
-    TritSet set = *this; //check that Reference() works
+    TritSet set = *this;
     for (int i = 0; i < this->get_capacity(); i++)
         set[i] = ~(*this)[i];
     return set;
@@ -123,8 +66,22 @@ TritSet TritSet::operator&(TritSet set_) const {
     }
     return set;
 }
-TritSet TritSet::operator|(TritSet) const {
-    //coming soon...
+TritSet TritSet::operator|(TritSet set_) const {
+    unsigned int capct1 = this->get_capacity();
+    unsigned int capct2 = set_.get_capacity();
+    TritSet set(capct1 > capct2 ? capct1 : capct2);
+    int i = 1;
+    while (capct1 != i - 1 && capct2 != i - 1) {
+        set[set.get_capacity() - i] = (*this)[capct1 - i] | set_[capct2 - i];
+        i++;
+    }
+    int j = 0;
+    while (j < set.get_capacity() - i) {
+        Reference r = capct1 > capct2 ? (*this)[j] : set_[j];
+        set[i] = r | UNKNOWN;
+        i--;
+    }
+    return set;
 }
 std::ostream& operator<<(std::ostream &o, const TritSet &set) {
     unsigned int capacity = set.get_capacity();
