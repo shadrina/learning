@@ -1,8 +1,6 @@
 #include "TritSet.h"
 #include "gtest/gtest.h"
 
-using namespace std;
-
 TEST(MemoryAllocation, InitTest) 
 {
 	TritSet set(100);
@@ -174,8 +172,17 @@ TEST(OperatorOverload, OperatorOrTest)
 	EXPECT_EQ(result, true);
 }
 
+TEST(OperatorOverload, CapacityOfResultTest)
+{
+	TritSet set_1(100);
+	TritSet set_2(200);
+	TritSet set_result = set_1 & set_2;
+	EXPECT_EQ(set_2.get_capacity(), set_result.get_capacity());
+	set_result = set_1 | set_2;
+	EXPECT_EQ(set_2.get_capacity(), set_result.get_capacity());
+}
+
 int main(int argc, char *argv[]) {
 	::testing::InitGoogleTest(&argc, argv);
-	RUN_ALL_TESTS();
-	return 0;
+	return RUN_ALL_TESTS();
 }
