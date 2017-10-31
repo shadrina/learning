@@ -3,10 +3,10 @@
 	\brief Contains declarations of all properties, fields, and methods of the class TritSet and nested
 	class Reference.
 
-	The class implements a vector of trits that grows as needed. Each element of the TritSet occupies 2 bits 
+	The class implements storing a sequence of trits that grows as needed. Each element of the TritSet occupies 2 bits 
 	and has three possible values: FALSE, UNKNOWN or TRUE.
 	Individual indexed trits can be examined, set, or cleared. 
-	One TritSet may be used to modify the contents of another TritSet through logical AND and logical OR.
+	One TritSet may be used to modify an another TritSet through logical AND and logical OR.
 */
 
 #pragma once
