@@ -31,11 +31,15 @@ TritSet::~TritSet() {
 	data = nullptr;
 }
 
-TritSet::Reference TritSet::operator[](unsigned int x) {
-	x++;
-	auto index = x % uint_capacity;
-	if (index == 0) index = uint_capacity;
-	return Reference(this, x / uint_capacity, index * 2 - 1);
+TritSet::Reference TritSet::operator[](unsigned int i) {
+	i++;
+	auto index = i % uint_capacity;
+	auto byte_shift = i / uint_capacity;
+	if (index == 0) {
+		index = uint_capacity;
+		byte_shift--;
+	}
+	return Reference(this, byte_shift, index * 2 - 1);
 }
 
 TritSet & TritSet::operator=(const TritSet & set) {
@@ -110,7 +114,7 @@ bool TritSet::operator==(TritSet &set_) const {
 	// so we need to create copy
 	TritSet set_copy = *this;
 	if (this->get_capacity() != set_.get_capacity()) return false;
-	for (int i = 0; i < this->get_capacity(); i++) 
+	for (int i = 0; i < this->get_capacity(); i++)
 		if (set_copy[i] != set_[i]) return false;
 	return true;
 }
