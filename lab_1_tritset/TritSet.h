@@ -1,5 +1,7 @@
 /*!
-	\brief Header file TritSet.h contains declarations of all properties, fields, and methods.
+	@file
+	\brief Contains declarations of all properties, fields, and methods of the class TritSet and nested
+	class Reference.
 
 	The class implements a vector of trits that grows as needed. Each element of the TritSet occupies 2 bits 
 	and has three possible values: FALSE, UNKNOWN or TRUE.
@@ -58,11 +60,11 @@ public:
 	bool operator!=(TritSet &) const;
 	friend std::ostream& operator<<(std::ostream &, const TritSet &);
 	void reallocate(unsigned int);
-	void shrink();           // Gets the memory free to the initial value or up to the value storing the last trit
-	void trim(size_t);       // Forgets trits from last_index and on
-	size_t cardinality(Trit);// Returns the number of trits set to this value
+	void shrink();
+	void trim(size_t);
+	size_t cardinality(Trit);
 	std::unordered_map<Trit, int, std::hash<int>> cardinality();
-	size_t length();         // Logical length
+	size_t length();
 	unsigned int * get_set() const;
 	unsigned int get_capacity() const;
 	unsigned int get_uint_capacity() const;

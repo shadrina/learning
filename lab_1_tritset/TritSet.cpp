@@ -1,15 +1,7 @@
-/*!
-	The class implements a vector of trits that grows as needed. Each element of the TritSet occupies 2 bits
-	and has three possible values: FALSE, UNKNOWN or TRUE.
-	Individual indexed trits can be examined, set, or cleared.
-	One TritSet may be used to modify the contents of another TritSet through logical AND and logical OR.
-*/
-
 #include "TritSet.h"
 
 TritSet::TritSet() : init_capacity(0), capacity(0), data(nullptr), ptr_last(0), last_modified_trit(0) {}
 
-// Copy constructor
 TritSet::TritSet(TritSet const & set) {
 	this->init_capacity = set.init_capacity;
 	this->capacity = set.capacity;
@@ -20,6 +12,7 @@ TritSet::TritSet(TritSet const & set) {
 	this->last_modified_trit = set.last_modified_trit;
 }
 
+/// Allocates enough memory to store the specified number of trits
 TritSet::TritSet(unsigned int capacity_) {
 	this->init_capacity = capacity_ / uint_capacity;
 	this->capacity = capacity_ / uint_capacity;
@@ -45,8 +38,6 @@ TritSet::Reference TritSet::operator[](unsigned int x) {
 	return Reference(this, x / uint_capacity, index * 2 - 1);
 }
 
-// Differences between copy constructor and operator=?
-// (except deleting previous data)
 TritSet & TritSet::operator=(const TritSet & set) {
 	this->capacity = set.capacity;
 	delete[] this->data;
@@ -141,6 +132,7 @@ std::ostream& operator<<(std::ostream &o, const TritSet &set) {
 	return o;
 }
 
+/// Reallocates enough memory to store the specified number of trits
 void TritSet::reallocate(unsigned int new_capacity) {
 	this->capacity = new_capacity / uint_capacity;
 	auto tail_in_trits = new_capacity % uint_capacity;
@@ -153,15 +145,18 @@ void TritSet::reallocate(unsigned int new_capacity) {
 	this->data = new_data;
 }
 
+/// Gets the memory free to the initial value or up to the value storing the last trit
 void TritSet::shrink() {
 	if (last_modified_trit != 0) reallocate(last_modified_trit);
 	else reallocate(init_capacity);
 }
 
+/// Forgets trits from last_index and on
 void TritSet::trim(size_t last_index) {
 	reallocate(last_index);
 }
 
+/// Returns the number of trits set to this value
 size_t TritSet::cardinality(Trit t) {
 	size_t res = 0;
 	for (int i = 1; i <= last_modified_trit; i++)
@@ -169,6 +164,7 @@ size_t TritSet::cardinality(Trit t) {
 	return res;
 }
 
+/// Returns the information about a cardinality of each possible value
 std::unordered_map<Trit, int, std::hash<int>> TritSet::cardinality() {
 	std::unordered_map<Trit, int, std::hash<int>> m;
 	m[FALSE] = cardinality(FALSE);
@@ -177,6 +173,7 @@ std::unordered_map<Trit, int, std::hash<int>> TritSet::cardinality() {
 	return m;
 }
 
+/// Returns logical length of the set
 size_t TritSet::length() {
 	for (size_t i = last_modified_trit; i > 0; i--)
 		if ((*this)[i] != UNKNOWN) return i - 1;

@@ -1,10 +1,3 @@
-/*!
-	The class implements a vector of trits that grows as needed. Each element of the TritSet occupies 2 bits
-	and has three possible values: FALSE, UNKNOWN or TRUE.
-	Individual indexed trits can be examined, set, or cleared.
-	One TritSet may be used to modify the contents of another TritSet through logical AND and logical OR.
-*/
-
 #include "TritSet.h"
 
 TritSet::Reference::Reference(TritSet *set_, unsigned int byte_shift_, unsigned int bit_shift_)
