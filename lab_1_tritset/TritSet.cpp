@@ -16,7 +16,7 @@ TritSet::TritSet(TritSet const & set) {
 TritSet::TritSet(unsigned int capacity_) {
 	this->init_capacity = capacity_ / uint_capacity;
 	this->capacity = capacity_ / uint_capacity;
-	unsigned int tail_in_trits = capacity_ % uint_capacity;
+	auto tail_in_trits = capacity_ % uint_capacity;
 	if (tail_in_trits > 0) {
 		this->capacity++;
 		this->init_capacity++;
@@ -65,8 +65,8 @@ TritSet TritSet::operator&(TritSet &set_) const {
 	// Method operator[] allows the object to be modified,
 	// so we need to create copy
 	TritSet set_copy = *this;
-	unsigned int capct1 = this->get_capacity();
-	unsigned int capct2 = set_.get_capacity();
+	auto capct1 = this->get_capacity();
+	auto capct2 = set_.get_capacity();
 	TritSet set(capct1 > capct2 ? capct1 : capct2);
 	int i = 1;
 	while (capct1 != i - 1 && capct2 != i - 1) {
@@ -88,8 +88,8 @@ TritSet TritSet::operator|(TritSet &set_) const {
 	// Method operator[] allows the object to be modified,
 	// so we need to create copy
 	TritSet set_copy = *this;
-	unsigned int capct1 = this->get_capacity();
-	unsigned int capct2 = set_.get_capacity();
+	auto capct1 = this->get_capacity();
+	auto capct2 = set_.get_capacity();
 	TritSet set(capct1 > capct2 ? capct1 : capct2);
 	int i = 1;
 	while (capct1 != i - 1 && capct2 != i - 1) {
@@ -125,7 +125,7 @@ std::ostream& operator<<(std::ostream &o, const TritSet &set) {
 	// Method operator[] allows the object to be modified,
 	// so we need to create copy
 	TritSet set_copy = set;
-	unsigned int capacity = set.get_capacity();
+	auto capacity = set.get_capacity();
 	for (int i = 0; i < capacity; i++)
 		o << i << " ";
 	o << std::endl;
@@ -136,7 +136,7 @@ std::ostream& operator<<(std::ostream &o, const TritSet &set) {
 
 void TritSet::reallocate(unsigned int new_capacity) {
 	this->capacity = new_capacity / uint_capacity;
-	unsigned int tail_in_trits = new_capacity % uint_capacity;
+	auto tail_in_trits = new_capacity % uint_capacity;
 	if (tail_in_trits > 0) this->capacity++;
 	this->ptr_last = tail_in_trits == 0 ? uint_capacity * 2 - 1 : tail_in_trits * 2 - 1;
 	auto *new_data = new unsigned int[this->capacity];

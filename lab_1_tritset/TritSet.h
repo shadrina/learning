@@ -15,11 +15,11 @@ const double GOLDEN_RATIO = 1.61803;
 
 class TritSet {
 private:
-	unsigned int init_capacity;       // in uints
-	unsigned int capacity;            // in uints
+	unsigned int init_capacity;       // In uints
+	unsigned int capacity;            // In uints
 	unsigned int *data;
-	unsigned int ptr_last;            // last bit in the last byte
-	unsigned int last_modified_trit;  // in trits
+	unsigned int ptr_last;            // Last bit in the last byte
+	unsigned int last_modified_trit;  // In trits
 public:
 	class Reference {
 	private:
@@ -34,7 +34,7 @@ public:
 		Trit operator&(Trit) const;
 		Trit operator|(Trit) const;
 		operator Trit() const;
-		friend std::ostream& operator<<(std::ostream&, const TritSet::Reference&);
+		friend std::ostream& operator<<(std::ostream &, const TritSet::Reference&);
 	};
 	TritSet();
 	TritSet(const TritSet &);
@@ -47,7 +47,7 @@ public:
 	TritSet operator|(TritSet &) const;
 	bool operator==(TritSet &) const;
 	bool operator!=(TritSet &) const;
-	friend std::ostream& operator<<(std::ostream&, const TritSet&);
+	friend std::ostream& operator<<(std::ostream &, const TritSet &);
 	void reallocate(unsigned int);
 	void shrink();           // Gets the memory free to the initial value or up to the value storing the last trit
 	void trim(size_t);       // Forgets trits from last_index and on
