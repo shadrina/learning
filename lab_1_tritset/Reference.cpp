@@ -1,14 +1,20 @@
+/*!
+	The class implements a vector of trits that grows as needed. Each element of the TritSet occupies 2 bits
+	and has three possible values: FALSE, UNKNOWN or TRUE.
+	Individual indexed trits can be examined, set, or cleared.
+	One TritSet may be used to modify the contents of another TritSet through logical AND and logical OR.
+*/
+
 #include "TritSet.h"
 
 TritSet::Reference::Reference(TritSet *set_, unsigned int byte_shift_, unsigned int bit_shift_)
 	: set(set_), byte_shift(byte_shift_), bit_shift(bit_shift_) {}
 
-//TODO static_cast
 TritSet::Reference & TritSet::Reference::operator=(Trit t) {
 	unsigned int modifiable_trit_numb = byte_shift * uint_capacity + bit_shift / 2 + 1;
 	if (set->get_capacity() < modifiable_trit_numb) {
 		if (t == UNKNOWN) return *this;
-		set->reallocate((unsigned int)(GOLDEN_RATIO * modifiable_trit_numb));
+		set->reallocate(static_cast<unsigned int>(GOLDEN_RATIO * modifiable_trit_numb));
 	}
 	set->last_modified_trit = modifiable_trit_numb;
 	unsigned int *ptr = set->get_set() + byte_shift;
@@ -31,7 +37,7 @@ TritSet::Reference & TritSet::Reference::operator=(Trit t) {
 }
 
 TritSet::Reference & TritSet::Reference::operator=(TritSet::Reference const & rvalue) {
-	*this = (Trit)rvalue;
+	*this = static_cast<Trit>(rvalue);
 	return *this;
 }
 
