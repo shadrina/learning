@@ -1,7 +1,6 @@
 #ifndef LAB_1_TRITSET_H
 #define LAB_1_TRITSET_H
 
-
 /*!
 	@file
 	\brief Contains declarations of all properties, fields, and methods of the class TritSet and nested
@@ -73,6 +72,5 @@ public:
 	unsigned int get_capacity() const;
 	unsigned int get_uint_capacity() const;
 };
-
 
 #endif
