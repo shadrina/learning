@@ -1,0 +1,10 @@
+#ifndef LAB_2_GAME_OF_LIFE_GAMEINTERFACE_H
+#define LAB_2_GAME_OF_LIFE_GAMEINTERFACE_H
+
+
+class GameInterface {
+
+};
+
+
+#endif //LAB_2_GAME_OF_LIFE_GAMEINTERFACE_H
