@@ -1,6 +1,3 @@
-#ifndef LAB_1_TRITSET_H
-#define LAB_1_TRITSET_H
-
 /*!
 	@file
 	\brief Contains declarations of all properties, fields, and methods of the class TritSet and nested
@@ -37,11 +34,11 @@ private:
 public:
 	class Reference {
 	private:
-		TritSet *set;
+		const TritSet *set;
 		unsigned int byte_shift;
 		unsigned int bit_shift;
 	public:
-		Reference(TritSet *, unsigned int, unsigned int);
+		Reference(const TritSet *, unsigned int, unsigned int);
 		Reference& operator=(Trit);
 		Reference& operator=(const Reference&);
 		Trit operator~() const;
@@ -55,12 +52,13 @@ public:
 	explicit TritSet(unsigned int capacity_);
 	~TritSet();
 	Reference operator[](unsigned int);
+	Trit operator[](unsigned int) const;
 	TritSet & operator=(const TritSet &);
 	TritSet operator~() const;
 	TritSet operator&(TritSet &) const;
 	TritSet operator|(TritSet &) const;
-	bool operator==(TritSet &) const;
-	bool operator!=(TritSet &) const;
+	bool operator==(const TritSet &) const;
+	bool operator!=(const TritSet &) const;
 	friend std::ostream& operator<<(std::ostream &, const TritSet &);
 	void reallocate(unsigned int);
 	void shrink();
@@ -72,5 +70,3 @@ public:
 	unsigned int get_capacity() const;
 	unsigned int get_uint_capacity() const;
 };
-
-#endif

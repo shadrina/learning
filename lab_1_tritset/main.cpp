@@ -182,6 +182,12 @@ TEST(OperatorOverload, CapacityOfResultTest)
 	EXPECT_EQ(set_2.get_capacity(), set_result.get_capacity());
 }
 
+TEST(ConstTritSetChange, FullTest)
+{
+	const TritSet set(10);
+	ASSERT_NO_THROW(std::cout << set[0]);
+}
+
 int main(int argc, char *argv[]) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

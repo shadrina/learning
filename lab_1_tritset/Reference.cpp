@@ -1,16 +1,17 @@
 #include "TritSet.h"
 
-TritSet::Reference::Reference(TritSet *set_, unsigned int byte_shift_, unsigned int bit_shift_)
+TritSet::Reference::Reference(const TritSet *set_, unsigned int byte_shift_, unsigned int bit_shift_)
 	: set(set_), byte_shift(byte_shift_), bit_shift(bit_shift_) {}
 
 TritSet::Reference & TritSet::Reference::operator=(Trit t) {
+	auto set_no_const = const_cast<TritSet *>(set);
 	unsigned int modifiable_trit_numb = byte_shift * uint_capacity + bit_shift / 2 + 1;
-	if (set->get_capacity() < modifiable_trit_numb) {
+	if (set_no_const->get_capacity() < modifiable_trit_numb) {
 		if (t == UNKNOWN) return *this;
-		set->reallocate(static_cast<unsigned int>(GOLDEN_RATIO * modifiable_trit_numb));
+		set_no_const->reallocate(static_cast<unsigned int>(GOLDEN_RATIO * modifiable_trit_numb));
 	}
-	set->last_modified_trit = modifiable_trit_numb;
-	unsigned int *ptr = set->get_set() + byte_shift;
+	set_no_const->last_modified_trit = modifiable_trit_numb;
+	unsigned int *ptr = set_no_const->get_set() + byte_shift;
 	int shift = uint_bit_size - bit_shift - 1;
 	int mask = ~(0b11 << shift);
 	*ptr = *ptr & mask;

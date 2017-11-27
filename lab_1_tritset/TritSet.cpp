@@ -42,20 +42,32 @@ TritSet::Reference TritSet::operator[](unsigned int i) {
 	return Reference(this, byte_shift, index * 2 - 1);
 }
 
+Trit TritSet::operator[](unsigned int i) const {
+	i++;
+	auto index = i % uint_capacity;
+	auto byte_shift = i / uint_capacity;
+	if (index == 0) {
+		index = uint_capacity;
+		byte_shift--;
+	}
+	return Reference(this, byte_shift, index * 2 - 1);
+}
+
 TritSet & TritSet::operator=(const TritSet & set) {
-	this->capacity = set.capacity;
-	delete[] this->data;
-	this->data = new unsigned int[set.capacity];
-	for (int i = 0; i < this->capacity; i++)
-		this->data[i] = set.data[i];
-	this->ptr_last = set.ptr_last;
-	this->last_modified_trit = set.last_modified_trit;
-	return *this;
+	if (*this != set) {
+		this->capacity = set.capacity;
+		delete[] this->data;
+		this->data = new unsigned int[set.capacity];
+		for (int i = 0; i < this->capacity; i++)
+			this->data[i] = set.data[i];
+		this->ptr_last = set.ptr_last;
+		this->last_modified_trit = set.last_modified_trit;
+		return *this;
+	}
 }
 
 TritSet TritSet::operator~() const {
-	// Method operator[] allows the object to be modified,
-	// so we need to create copy
+	// Need to create Trit-logic to remove the copy creation
 	TritSet set_copy = *this;
 	TritSet set = *this;
 	for (int i = 0; i < this->get_capacity(); i++)
@@ -64,8 +76,7 @@ TritSet TritSet::operator~() const {
 }
 
 TritSet TritSet::operator&(TritSet &set_) const {
-	// Method operator[] allows the object to be modified,
-	// so we need to create copy
+	// Need to create Trit-logic to remove the copy creation
 	TritSet set_copy = *this;
 	auto capct1 = this->get_capacity();
 	auto capct2 = set_.get_capacity();
@@ -87,8 +98,7 @@ TritSet TritSet::operator&(TritSet &set_) const {
 }
 
 TritSet TritSet::operator|(TritSet &set_) const {
-	// Method operator[] allows the object to be modified,
-	// so we need to create copy
+	// Need to create Trit-logic to remove the copy creation
 	TritSet set_copy = *this;
 	auto capct1 = this->get_capacity();
 	auto capct2 = set_.get_capacity();
@@ -109,30 +119,24 @@ TritSet TritSet::operator|(TritSet &set_) const {
 	return set;
 }
 
-bool TritSet::operator==(TritSet &set_) const {
-	// Method operator[] allows the object to be modified,
-	// so we need to create copy
-	TritSet set_copy = *this;
+bool TritSet::operator==(const TritSet &set_) const {
 	if (this->get_capacity() != set_.get_capacity()) return false;
 	for (int i = 0; i < this->get_capacity(); i++)
-		if (set_copy[i] != set_[i]) return false;
+		if ((*this)[i] != set_[i]) return false;
 	return true;
 }
 
-bool TritSet::operator!=(TritSet &set_) const {
+bool TritSet::operator!=(const TritSet &set_) const {
 	return !(this->operator==(set_));
 }
 
 std::ostream& operator<<(std::ostream &o, const TritSet &set) {
-	// Method operator[] allows the object to be modified,
-	// so we need to create copy
-	TritSet set_copy = set;
 	auto capacity = set.get_capacity();
 	for (int i = 0; i < capacity; i++)
 		o << i << " ";
 	o << std::endl;
 	for (int i = 0; i < capacity; i++)
-		o << set_copy[i] << " ";
+		o << set[i] << " ";
 	return o;
 }
 
