@@ -4,23 +4,28 @@
 
 /*! Description provided */
 
-#include "Cell.h"
+#include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include "Cell.h"
+#include "ConsoleColor.h"
 
 class Entity {
 private:
-    unsigned int weight;
+    unsigned int width;
     unsigned int height;
     Cell * curr_population;
     Cell * prev_population;
 public:
     Entity(unsigned int, unsigned int);
+    Entity();
     ~Entity();
     void random_init_state();
-    void load_init_state(std::ifstream*);
+    Entity & load_init_state(std::ifstream*);
     void populate();
     void notify_neighbors(unsigned int, unsigned int, State);
-    void notify_neighbor(unsigned int, unsigned int, State);
+    void notify_neighbor(int, int, State);
+    void print_state();
     void reset();
     void clear(unsigned int, unsigned int);
     void back();

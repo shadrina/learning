@@ -12,10 +12,11 @@ public:
     Cell();
     Cell(State);
     void set_state(State);
-    State get_state();
-    int get_alive_neighbours();
+    State get_state() const;
+    int get_alive_neighbours() const;
     void notice_neighbour_birth();
     void notice_neighbour_death();
+    Cell & operator=(const Cell &);
 };
 
 

@@ -1,0 +1,10 @@
+#ifndef LAB_2_GAME_OF_LIFE_GOL_EXCEPTIONS_H
+#define LAB_2_GAME_OF_LIFE_GOL_EXCEPTIONS_H
+
+
+class GOL_Exceptions {
+
+};
+
+
+#endif //LAB_2_GAME_OF_LIFE_GOL_EXCEPTIONS_H
