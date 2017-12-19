@@ -12,7 +12,13 @@ Individual indexed trits can be examined, set, or cleared.
 One TritSet may be used to modify an another TritSet through logical AND and logical OR.
 
 ### Conway's Game of Life (lab_2)
+The program implements Conway's Game of Life - cellular automaton with a small set of rules. 
+The "help" command will display all supported commands to the console.
+
+
+### Workflow (lab_3)
 Coming soon...
+
 
 ## Links
 * [Course lectures](https://sites.google.com/site/nguoop/materialy-lekcij---s)
