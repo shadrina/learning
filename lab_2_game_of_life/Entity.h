@@ -16,20 +16,22 @@ private:
     unsigned int height;
     Cell * curr_population;
     Cell * prev_population;
+    unsigned int step;
 public:
     Entity(unsigned int, unsigned int);
     Entity();
     ~Entity();
-    void random_init_state();
-    Entity & load_init_state(std::ifstream*);
-    void populate();
-    void notify_neighbors(unsigned int, unsigned int, State);
     void notify_neighbor(int, int, State);
+    void notify_neighbors(unsigned int, unsigned int, State);
+    void set(unsigned int, unsigned int);
+    void clear(unsigned int, unsigned int);
+    void random_init_state();
+    Entity & load_init_state(std::ifstream *);
+    void save_state(std::ofstream *);
+    void populate();
     void print_state();
     void reset();
-    void clear(unsigned int, unsigned int);
     void back();
-
 };
 
 

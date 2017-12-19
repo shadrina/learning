@@ -5,6 +5,7 @@ Entity::Entity(unsigned int height_, unsigned int width_) {
     this->width = width_;
     this->curr_population = new Cell[height_ * width_];
     this->prev_population = new Cell[height_ * width_];
+    this->step = 0;
 }
 
 Entity::Entity() : Entity(10, 10) {}
@@ -16,20 +17,48 @@ Entity::~Entity() {
     prev_population = nullptr;
 }
 
+void Entity::notify_neighbor(int i, int j, State set_state) {
+    if (i == -1) i = height - 1;
+    if (j == -1) j = width - 1;
+    if (i == height) i = 0;
+    if (j == width) j = 0;
+    if (set_state == ALIVE) curr_population[i * width + j].notice_neighbour_birth();
+    if (set_state == DEAD) curr_population[i * width + j].notice_neighbour_death();
+}
+
+void Entity::notify_neighbors(unsigned int i, unsigned int j, State set_state) {
+    notify_neighbor(i - 1, j, set_state);
+    notify_neighbor(i, j - 1, set_state);
+    notify_neighbor(i + 1, j, set_state);
+    notify_neighbor(i, j + 1, set_state);
+    notify_neighbor(i - 1, j - 1, set_state);
+    notify_neighbor(i + 1, j - 1, set_state);
+    notify_neighbor(i + 1, j + 1, set_state);
+    notify_neighbor(i - 1, j + 1, set_state);
+}
+
+void Entity::set(unsigned int i, unsigned int j) {
+    curr_population[i * width + j].set_state(ALIVE);
+    this->notify_neighbors(i, j, ALIVE);
+};
+
+void Entity::clear(unsigned int i, unsigned int j) {
+    curr_population[i * width + j].set_state(DEAD);
+    this->notify_neighbors(i, j, DEAD);
+}
+
 void Entity::random_init_state() {
     int alive_cells_numb = rand() % (height + width) + 1;
-    if (alive_cells_numb < (height + width) / 4) alive_cells_numb += 10;
+    // if (alive_cells_numb < (height + width) / 4) alive_cells_numb += 10;
     for (int k = 0; k < alive_cells_numb; k++) {
         unsigned int i = rand() % height;
         unsigned int j = rand() % width;
         if (curr_population[i * width + j].get_state() == ALIVE) continue;
-        curr_population[i * width + j].set_state(ALIVE);
-        notify_neighbors(i, j, ALIVE);
+        set(i, j);
     }
 }
 
 Entity & Entity::load_init_state(std::ifstream *fin) {
-    if (!fin->is_open()) std::cout << "I will create an exception..." << std::endl;
     delete[] curr_population;
     delete[] prev_population;
     std::string s;
@@ -42,14 +71,21 @@ Entity & Entity::load_init_state(std::ifstream *fin) {
     int i = 0;
     while(true) {
         for (int j = 0; j < size; j++)
-            if (s[j] == '#') {
-                curr_population[i * size + j].set_state(ALIVE);
-                notify_neighbors(i, j, ALIVE);
-            }
+            if (s[j] == '#') set(i, j);
         i++;
         if (!getline(*fin, s)) break;
     }
     return *this;
+}
+
+void Entity::save_state(std::ofstream *fout) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            char cell = curr_population[i * width + j].get_state();
+            *fout << cell;
+        }
+        *fout << std::endl;
+    }
 }
 
 /*
@@ -73,44 +109,40 @@ void Entity::populate() {
             State curr_state = prev_population[i * width + j].get_state();
             int alive_neighbours = prev_population[i * width + j].get_alive_neighbours();
             if (curr_state == ALIVE && alive_neighbours < 2) new_state = DEAD;
-            else if (curr_state == ALIVE && alive_neighbours >= 2 && alive_neighbours <= 3) continue;
+            // else if (curr_state == ALIVE && alive_neighbours >= 2 && alive_neighbours <= 3) continue;
             else if (curr_state == ALIVE && alive_neighbours > 3) new_state = DEAD;
             else if (curr_state == DEAD && alive_neighbours == 3) new_state = ALIVE;
             else continue;
 
-            curr_population[i * width + j].set_state(new_state);
-            notify_neighbors(i, j, new_state);
+            if (new_state == ALIVE) set(i, j);
+            else clear(i, j);
         }
-}
-
-void Entity::notify_neighbors(unsigned int i, unsigned int j, State set_state) {
-    notify_neighbor(i - 1, j, set_state);
-    notify_neighbor(i, j - 1, set_state);
-    notify_neighbor(i + 1, j, set_state);
-    notify_neighbor(i, j + 1, set_state);
-    notify_neighbor(i - 1, j - 1, set_state);
-    notify_neighbor(i + 1, j - 1, set_state);
-    notify_neighbor(i + 1, j + 1, set_state);
-    notify_neighbor(i - 1, j + 1, set_state);
-}
-
-void Entity::notify_neighbor(int i, int j, State set_state) {
-    if (i == -1) i = height - 1;
-    if (j == -1) j = width - 1;
-    if (i == height) i = 0;
-    if (j == width) j = 0;
-    if (set_state == ALIVE) curr_population[i * width + j].notice_neighbour_birth();
-    if (set_state == DEAD) curr_population[i * width + j].notice_neighbour_death();
+    step++;
 }
 
 void Entity::print_state() {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             if (curr_population[i * width + j].get_state() == ALIVE) std::cout << green << "#";
-            if (curr_population[i * width + j].get_state() == DEAD) std::cout << white << "O";
+            if (curr_population[i * width + j].get_state() == DEAD) std::cout << white << " ";
         }
         std::cout << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << std::endl << "Step number: " << step << std::endl;
 }
 
+void Entity::reset() {
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+            if (curr_population[i * width + j].get_state() == ALIVE) {
+                curr_population[i * width + j].set_state(DEAD);
+                notify_neighbors(i, j, DEAD);
+            }
+    this->step = 0;
+}
+
+void Entity::back() {
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+            curr_population[i * width + j] = prev_population[i * width + j];
+}
