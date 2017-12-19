@@ -24,6 +24,7 @@ Save::Save(Entity *ent_) : Command(ent_) {}
 
 void Random::execute() {
     ent->random_init_state();
+
     system("cls");
     ent->print_state();
 }
@@ -33,8 +34,8 @@ void Auto::execute() {
     std::cin >> iterations;
     std::cin >> delay;
     for (int i = 0; i < iterations; i++) {
-        system("cls");
         ent->populate();
+        system("cls");
         ent->print_state();
         Sleep(delay);
     }
@@ -86,7 +87,7 @@ void Load::execute() {
     std::cin >> file_name;
     std::ifstream input(file_name);
     if (input.is_open()) ent->load_init_state(&input);
-    // else throw NoFileException();
+    else throw NoFileException(file_name);
     input.close();
 
     system("cls");
@@ -98,7 +99,7 @@ void Save::execute() {
     std::cin >> file_name;
     std::ofstream output(file_name);
     if (output.is_open()) ent->save_state(&output);
-    // else throw NoFileException();
+    else throw NoFileException(file_name);
     output.close();
     std::cout << "Saved!";
 }
@@ -106,15 +107,15 @@ void Save::execute() {
 void Help::execute() {
     system("cls");
     std::cout << "The following commands are supported: " << std::endl;
-    std::cout << "1. \'random\' sets random initial state" << std::endl;
-    std::cout << "2. \'auto [iterations] [delay]\' reproduces the process of birth of the next [iterations] generations"
+    std::cout << "* \'random\' sets random initial state" << std::endl;
+    std::cout << "* \'auto [iterations] [delay]\' reproduces the process of birth of the next [iterations] generations"
             " with a delay of [delay] milliseconds" << std::endl;
-    std::cout << "3. \'reset\' clears the playing field and steps counter" << std::endl;
-    std::cout << "4. \'set [i] [j]\' revives the cell with coordinates ([i], [j])" << std::endl;
-    std::cout << "5. \'clear [i] [j]\' kills the cell with coordinates ([i], [j])" << std::endl;
-    std::cout << "6. \'step [n]\' skips [n] stages of division" << std::endl;
-    std::cout << "7. \'back\' returns previous state" << std::endl;
-    std::cout << "8. \'load [file_name]\' loads initial state from the file [file_name]" << std::endl;
-    std::cout << "9. \'save [file_name]\' stores current state in the file [file_name]" << std::endl;
-    std::cout << "10. \'help\' helps" << std::endl << std::endl;
+    std::cout << "* \'reset\' clears the playing field and steps counter" << std::endl;
+    std::cout << "* \'set [i] [j]\' revives the cell with coordinates ([i], [j])" << std::endl;
+    std::cout << "* \'clear [i] [j]\' kills the cell with coordinates ([i], [j])" << std::endl;
+    std::cout << "* \'step [n]\' skips [n] stages of division" << std::endl;
+    std::cout << "* \'back\' returns previous state" << std::endl;
+    std::cout << "* \'load [file_name]\' loads initial state from the file [file_name]" << std::endl;
+    std::cout << "* \'save [file_name]\' stores current state in the file [file_name]" << std::endl;
+    std::cout << "* \'help\' helps" << std::endl << std::endl;
 }

@@ -17,6 +17,13 @@ Entity::~Entity() {
     prev_population = nullptr;
 }
 
+void Entity::compare_populations() {
+    for (int  i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+            if (curr_population[i *  width + j] != prev_population[i * width + j]) return;
+    throw FixedStateException();
+}
+
 void Entity::notify_neighbor(int i, int j, State set_state) {
     if (i == -1) i = height - 1;
     if (j == -1) j = width - 1;
@@ -49,7 +56,6 @@ void Entity::clear(unsigned int i, unsigned int j) {
 
 void Entity::random_init_state() {
     int alive_cells_numb = rand() % (height + width) + 1;
-    // if (alive_cells_numb < (height + width) / 4) alive_cells_numb += 10;
     for (int k = 0; k < alive_cells_numb; k++) {
         unsigned int i = rand() % height;
         unsigned int j = rand() % width;
@@ -118,13 +124,22 @@ void Entity::populate() {
             else clear(i, j);
         }
     step++;
+    compare_populations();
 }
 
 void Entity::print_state() {
+    std::cout << "  ";
+    for (int i = 0; i < width; i++) printf("%2d", i);
+    std::cout << std::endl;
     for (int i = 0; i < height; i++) {
+        std::cout << i << " ";
         for (int j = 0; j < width; j++) {
-            if (curr_population[i * width + j].get_state() == ALIVE) std::cout << green << "#";
-            if (curr_population[i * width + j].get_state() == DEAD) std::cout << white << " ";
+            if (curr_population[i * width + j].get_state() == ALIVE) {
+                std::cout << green;
+                printf("%2c", '#');
+                std::cout << white;
+            }
+            if (curr_population[i * width + j].get_state() == DEAD) std::cout << white << "  ";
         }
         std::cout << std::endl;
     }

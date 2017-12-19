@@ -17,6 +17,8 @@ public:
     void notice_neighbour_birth();
     void notice_neighbour_death();
     Cell & operator=(const Cell &);
+    bool operator==(const Cell &);
+    bool operator!=(const Cell &);
 };
 
 

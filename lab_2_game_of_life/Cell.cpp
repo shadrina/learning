@@ -33,3 +33,11 @@ Cell & Cell::operator=(const Cell &c) {
     this->alive_neighbours = c.get_alive_neighbours();
     return *this;
 }
+
+bool Cell::operator==(const Cell &c) {
+    return state == c.get_state() && alive_neighbours == c.get_alive_neighbours();
+}
+
+bool Cell::operator!=(const Cell &c) {
+    return !this->operator==(c);
+}

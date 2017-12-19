@@ -40,8 +40,22 @@ void GameInterface::play() {
     std::string command_name;
     std::cin >> command_name;
     Command *command_executor = commands[command_name];
-    // if (command_executor == nullptr) throw NoCommandException;
-    command_executor->execute();
+    try {
+        if (command_executor == nullptr) throw NoCommandException(command_name);
+        command_executor->execute();
+    }
+    catch(NoCommandException &e) {
+        e.get_message();
+    }
+    catch(NoFileException &e) {
+        e.get_message();
+    }
+    catch(FixedStateException &e) {
+        e.get_message();
+    }
+    catch(Exception &e) {
+        e.get_message();
+    }
 
     play();
 }

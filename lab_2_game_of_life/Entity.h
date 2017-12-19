@@ -7,8 +7,10 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <cstdio>
 #include "Cell.h"
 #include "ConsoleColor.h"
+#include "exceptions/Exception.h"
 
 class Entity {
 private:
@@ -21,6 +23,7 @@ public:
     Entity(unsigned int, unsigned int);
     Entity();
     ~Entity();
+    void compare_populations();
     void notify_neighbor(int, int, State);
     void notify_neighbors(unsigned int, unsigned int, State);
     void set(unsigned int, unsigned int);
