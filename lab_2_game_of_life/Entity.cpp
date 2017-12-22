@@ -124,8 +124,9 @@ Entity & Entity::load_init_state(std::ifstream *fin) {
 void Entity::save_state(std::ofstream *fout) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            char cell = curr_population[i * width + j].get_state();
-            *fout << cell;
+            if (curr_population[i * width + j].get_state() == ALIVE)
+                *fout << "#";
+            else *fout << ".";
         }
         *fout << std::endl;
     }

@@ -101,7 +101,7 @@ void Save::execute() {
     if (output.is_open()) ent->save_state(&output);
     else throw NoFileException(file_name);
     output.close();
-    std::cout << "Saved!";
+    std::cout << "Saved! ";
 }
 
 void Help::execute() {
