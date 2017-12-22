@@ -1,5 +1,42 @@
 #include "Entity.h"
 
+Entity::Iterator::Iterator(const Cell *c_) : c(c_) {}
+
+Entity::Iterator & Entity::Iterator::operator++() {
+    c++;
+    return *this;
+}
+
+Entity::Iterator Entity::Iterator::operator++(int) {
+    Iterator temp(this->c);
+    c++;
+    return temp;
+}
+
+Entity::Iterator & Entity::Iterator::operator--() {
+    c--;
+    return *this;
+}
+
+Entity::Iterator Entity::Iterator::operator--(int) {
+    Iterator temp(this->c);
+    c--;
+    return temp;
+}
+
+bool Entity::Iterator::operator==(const Iterator &i) {
+    return c == i.c;
+}
+
+bool Entity::Iterator::operator!=(const Iterator &i) {
+    return c != i.c;
+}
+
+std::ostream & operator<<(std::ostream &os, const Entity::Iterator &i) {
+    os << *i.c;
+    return os;
+}
+
 Entity::Entity(unsigned int height_, unsigned int width_) {
     this->height = height_;
     this->width = width_;
@@ -131,15 +168,12 @@ void Entity::print_state() {
     std::cout << "  ";
     for (int i = 0; i < width; i++) printf("%2d", i);
     std::cout << std::endl;
+    Iterator it = &curr_population[0];
     for (int i = 0; i < height; i++) {
         std::cout << i << " ";
         for (int j = 0; j < width; j++) {
-            if (curr_population[i * width + j].get_state() == ALIVE) {
-                std::cout << green;
-                printf("%2c", '#');
-                std::cout << white;
-            }
-            if (curr_population[i * width + j].get_state() == DEAD) std::cout << white << "  ";
+            std::cout << it;
+            it++;
         }
         std::cout << std::endl;
     }

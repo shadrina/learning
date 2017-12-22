@@ -2,6 +2,9 @@
 #define LAB_2_GAME_OF_LIFE_CELL_H
 
 
+#include <fstream>
+#include "ConsoleColor.h"
+
 enum State { ALIVE, DEAD };
 
 class Cell {
@@ -19,6 +22,7 @@ public:
     Cell & operator=(const Cell &);
     bool operator==(const Cell &);
     bool operator!=(const Cell &);
+    friend std::ostream & operator<<(std::ostream &, const Cell &);
 };
 
 

@@ -2,14 +2,10 @@
 #define LAB_2_GAME_OF_LIFE_ENTITY_H
 
 
-/*! Description provided */
-
 #include <iostream>
-#include <fstream>
 #include <cstdlib>
 #include <cstdio>
 #include "Cell.h"
-#include "ConsoleColor.h"
 #include "exceptions/Exception.h"
 
 class Entity {
@@ -20,6 +16,20 @@ private:
     Cell * prev_population;
     unsigned int step;
 public:
+    class Iterator {
+    private:
+        friend class Cell;
+        const Cell *c;
+    public:
+        Iterator(const Cell *);
+        Iterator & operator++();
+        Iterator operator++(int);
+        Iterator & operator--();
+        Iterator operator--(int);
+        bool operator==(const Iterator &);
+        bool operator!=(const Iterator &);
+        friend std::ostream & operator<<(std::ostream &, const Iterator &);
+    };
     Entity(unsigned int, unsigned int);
     Entity();
     ~Entity();

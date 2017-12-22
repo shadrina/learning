@@ -41,3 +41,15 @@ bool Cell::operator==(const Cell &c) {
 bool Cell::operator!=(const Cell &c) {
     return !this->operator==(c);
 }
+
+std::ostream & operator<<(std::ostream &os, const Cell &c) {
+    if (c.get_state() == ALIVE) {
+        os << green;
+        printf("%2c", '#');
+        os << white;
+    }
+    if (c.get_state() == DEAD) {
+        os << white << "  ";
+    }
+    return os;
+}

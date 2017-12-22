@@ -1,7 +1,9 @@
 #include "GameInterface.h"
 
-int main() {
-    GameInterface game;
-    game.play();
-    return 0;
+
+
+int main(int argc, char *argv[]) {
+	GameInterface g;
+	g.play();
+	return 0;
 }
