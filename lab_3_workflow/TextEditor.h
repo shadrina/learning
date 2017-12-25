@@ -6,6 +6,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include "exceptions/Exception.h"
 
 class TextEditor {
 private:

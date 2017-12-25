@@ -1,0 +1,10 @@
+#ifndef LAB_3_WORKFLOW_EXCEPTION_H
+#define LAB_3_WORKFLOW_EXCEPTION_H
+
+
+class Exception {
+
+};
+
+
+#endif //LAB_3_WORKFLOW_EXCEPTION_H

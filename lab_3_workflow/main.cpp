@@ -1,6 +1,7 @@
-#include <iostream>
+#include "Workflow.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Workflow w;
+    w.work("input.txt");
     return 0;
 }

@@ -24,7 +24,10 @@ void TextEditor::write_file(const std::string &file_name) {
 
 void TextEditor::grep(const std::string &s) {
     for (int i = 0; i < strings.size(); i++) {
-        if (!strings[i].find(s)) strings.erase(strings.begin() + i);
+        if (strings[i].find(s) == std::string::npos) {
+            strings.erase(strings.begin() + i, strings.begin() + i + 1);
+            i--;
+        }
     }
 }
 

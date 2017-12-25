@@ -3,6 +3,7 @@
 
 
 #include "TextEditor.h"
+#include <sstream>
 #include <list>
 
 class Command {
@@ -11,8 +12,8 @@ protected:
     TextEditor *text;
 public:
     Command();
-    Command(TextEditor *);
-    void read_args();
+    explicit Command(TextEditor *);
+    void read_args(std::string &s);
     virtual void execute() = 0;
 };
 
