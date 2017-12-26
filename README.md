@@ -17,8 +17,12 @@ The "help" command will display all supported commands to the console.
 
 
 ### Workflow (lab_3)
-Coming soon...
+Workflow is a computational scheme consisting of a predefined set of computing units and connections between them. 
+At the input, the application receives a configuration file containing descriptions of the main computational units and a description of the pipeline structure. At the output gives a file processed according to the scheme.
 
+
+### Simplified CSV parser (lab_4)
+Coming soon...
 
 ## Links
 * [Course lectures](https://sites.google.com/site/nguoop/materialy-lekcij---s)
