@@ -32,17 +32,16 @@ void Workflow::parse_config(std::ifstream &input) {
     while (!parser.end_of_desc()) {
         std::string id_str = parser.get_next_essential_arg();
         auto id = static_cast<unsigned int>(atoll(id_str.c_str()));
-        // TODO if (parser.empty()) throw WrongStructureException();
+        if (parser.empty()) throw WrongStructureException();
 
         std::string command_name = parser.get_next_essential_arg();
         Command *command = commands[command_name];
-        // TODO if (command == nullptr) throw NoCommandException();
+        if (command == nullptr) throw NoCommandException(command_name);
 
         blocks[id] = command_name;
         std::string command_args = parser.get_command_args();
         command->read_args(command_args);
     }
-    // TODO if (s != BLOCK_END) throw WrongStructureException();
     while (!parser.empty()) {
         unsigned int id = static_cast<unsigned int>(atoll(parser.get_next_essential_arg().c_str()));
         queue.push(id);
@@ -52,17 +51,30 @@ void Workflow::parse_config(std::ifstream &input) {
 void Workflow::work(std::string file_name) {
     try {
         std::ifstream input(file_name);
-        // TODO if (!input.is_open) throw NoFileException();
+        if (!input.is_open()) throw NoFileException(file_name);
         parse_config(input);
         input.close();
-        // TODO if (blocks[queue.front()] != "read") throw WrongStructureException();
+        if (blocks[queue.front()] != "readfile" || blocks[queue.back()] != "writefile") throw WrongStructureException();
+
         while (!queue.empty()) {
             Command *next_command = commands[blocks[queue.front()]];
             queue.pop();
             next_command->execute();
         }
     }
+    catch(NoCommandException &e) {
+        e.get_message();
+    }
+    catch(NoFileException &e) {
+        e.get_message();
+    }
+    catch(WrongStructureException &e) {
+        e.get_message();
+    }
+    catch(NoParameterException &e) {
+        e.get_message();
+    }
     catch(Exception &e) {
-        // ...
+        e.get_message();
     }
 }

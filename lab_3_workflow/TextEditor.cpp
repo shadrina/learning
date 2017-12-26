@@ -4,7 +4,7 @@ TextEditor::TextEditor() : strings({}) {}
 
 void TextEditor::read_file(const std::string &file_name) {
     std::ifstream file(file_name);
-    // TODO if (!file.is_open()) throw NoFileException;
+    if (!file.is_open()) throw NoFileException(file_name);
     std::string s;
     while (getline(file, s)) strings.push_back(s);
     file.close();
@@ -12,7 +12,7 @@ void TextEditor::read_file(const std::string &file_name) {
 
 void TextEditor::write_file(const std::string &file_name) {
     std::ofstream file(file_name);
-    // TODO if (!file.is_open()) throw NoFileException;
+    if (!file.is_open()) throw NoFileException(file_name);
     int i = 0;
     while (i != strings.size()) {
         file << strings[i];
@@ -48,7 +48,7 @@ void TextEditor::replace(const std::string &search, const std::string &replace) 
 
 void TextEditor::dump(const std::string &file_name) {
     std::ofstream file(file_name);
-    // TODO if (!file.is_open()) throw NoFileException;
+    if (!file.is_open()) throw NoFileException(file_name);
     int i = 0;
     while (i != strings.size()) {
         file << strings[i];

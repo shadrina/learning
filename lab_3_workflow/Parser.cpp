@@ -19,7 +19,7 @@ Parser::Parser(std::ifstream *file) {
             iss >> sub;
         }
     }
-    // TODO if (args.front() != BLOCK_START) throw WrongStructureException();
+    if (args.front() != BLOCK_START) throw WrongStructureException();
     args.pop();
     end_of_desc_detected = false;
 }
@@ -27,9 +27,9 @@ Parser::Parser(std::ifstream *file) {
 std::string Parser::get_next_essential_arg() {
     std::string next;
     while (true) {
-        // TODO if (args.empty() && !end_of_block_detected) throw WrongStructureException();
+        if (args.empty() && !end_of_desc_detected) throw WrongStructureException();
         next = args.front();
-        // TODO if (next == BLOCK_END) throw WrongStructureException();
+        if (next == BLOCK_END) throw WrongStructureException();
         if (next == BLOCK_INITIALIZER) {
             args.pop();
             continue;

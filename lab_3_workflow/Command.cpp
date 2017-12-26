@@ -18,18 +18,21 @@ void Command::read_args(std::string &s) {
 Read::Read(TextEditor *text_editor) : Command(text_editor) {}
 
 void Read::execute() {
+    if (args.empty()) throw NoParameterException("readfile");
     text->read_file(args.front());
 }
 
 Write::Write(TextEditor *text_editor) : Command(text_editor) {}
 
 void Write::execute() {
+    if (args.empty()) throw NoParameterException("writefile");
     text->write_file(args.front());
 }
 
 Grep::Grep(TextEditor *text_editor) : Command(text_editor) {}
 
 void Grep::execute() {
+    if (args.empty()) throw NoParameterException("grep");
     text->grep(args.front());
 }
 
@@ -42,9 +45,11 @@ void Sort::execute() {
 Replace::Replace(TextEditor *text_editor) : Command(text_editor) {}
 
 void Replace::execute() {
+    if (args.empty()) throw NoParameterException("replace");
     std::string arg1;
     arg1 = args.front();
     args.erase(args.begin());
+    if (args.empty()) throw NoParameterException("replace");
     std::string arg2;
     arg2 = args.front();
 
@@ -54,5 +59,6 @@ void Replace::execute() {
 Dump::Dump(TextEditor *text_editor) : Command(text_editor) {}
 
 void Dump::execute() {
+    if (args.empty()) throw NoParameterException("dump");
     text->dump(args.front());
 }

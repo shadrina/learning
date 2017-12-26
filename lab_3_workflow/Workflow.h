@@ -2,9 +2,6 @@
 #define LAB_3_WORKFLOW_WORKFLOW_H
 
 
-#include <iostream>
-#include <string>
-#include <queue>
 #include <map>
 #include "Command.h"
 #include "Parser.h"
