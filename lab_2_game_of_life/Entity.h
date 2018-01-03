@@ -18,10 +18,10 @@ private:
 public:
     class Iterator {
     private:
-        friend class Cell;
         const Cell *c;
     public:
         Iterator(const Cell *);
+        const Cell & operator*();
         Iterator & operator++();
         Iterator operator++(int);
         Iterator & operator--();
@@ -33,6 +33,8 @@ public:
     Entity(unsigned int, unsigned int);
     Entity();
     ~Entity();
+    Iterator begin();
+    Iterator end();
     void compare_populations();
     void notify_neighbor(int, int, State);
     void notify_neighbors(unsigned int, unsigned int, State);

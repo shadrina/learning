@@ -37,6 +37,10 @@ std::ostream & operator<<(std::ostream &os, const Entity::Iterator &i) {
     return os;
 }
 
+const Cell & Entity::Iterator::operator*() {
+    return *c;
+}
+
 Entity::Entity(unsigned int height_, unsigned int width_) {
     this->height = height_;
     this->width = width_;
@@ -106,7 +110,7 @@ Entity & Entity::load_init_state(std::ifstream *fin) {
     delete[] prev_population;
     std::string s;
     getline(*fin, s);
-    unsigned int size = s.length();
+    unsigned int size = static_cast<unsigned int>(s.length());
     this->width = size;
     this->height = size;
     this->curr_population = new Cell[size * size];
@@ -168,15 +172,11 @@ void Entity::populate() {
 void Entity::print_state() {
     std::cout << "  ";
     for (int i = 0; i < width; i++) printf("%2d", i);
-    std::cout << std::endl;
-    Iterator it = &curr_population[0];
-    for (int i = 0; i < height; i++) {
-        std::cout << i << " ";
-        for (int j = 0; j < width; j++) {
-            std::cout << it;
-            it++;
-        }
-        std::cout << std::endl;
+    int cell_counter = 0;
+    for (auto cell : *this) {
+        if (cell_counter % width == 0) std::cout << std::endl << cell_counter / width << " ";
+        std::cout << cell;
+        cell_counter++;
     }
     std::cout << std::endl << "Step number: " << step << std::endl;
 }
@@ -195,4 +195,12 @@ void Entity::back() {
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             curr_population[i * width + j] = prev_population[i * width + j];
+}
+
+Entity::Iterator Entity::begin() {
+    return {&curr_population[0]};
+}
+
+Entity::Iterator Entity::end() {
+    return {&curr_population[height * width]};
 }
