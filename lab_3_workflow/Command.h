@@ -2,54 +2,55 @@
 #define LAB_3_WORKFLOW_COMMAND_H
 
 
-#include "TextEditor.h"
 #include <sstream>
 #include <list>
+#include "TextEditor.h"
+#include "SharedPtr.h"
 
 class Command {
 protected:
     std::list<std::string> args;
-    TextEditor *text;
+    SharedPtr<TextEditor> text;
 public:
     Command();
-    explicit Command(TextEditor *);
-    void read_args(std::string &s);
+    explicit Command(SharedPtr<TextEditor>);
+    void read_args(std::string &);
     virtual void execute() = 0;
 };
 
 class Read : public Command {
 public:
-    explicit Read(TextEditor *);
+    explicit Read(SharedPtr<TextEditor>);
     void execute() override;
 };
 
 class Write : public Command {
 public:
-    explicit Write(TextEditor *);
+    explicit Write(SharedPtr<TextEditor>);
     void execute() override;
 };
 
 class Grep : public Command {
 public:
-    explicit Grep(TextEditor *);
+    explicit Grep(SharedPtr<TextEditor>);
     void execute() override;
 };
 
 class Sort : public Command {
 public:
-    explicit Sort(TextEditor *);
+    explicit Sort(SharedPtr<TextEditor>);
     void execute() override;
 };
 
 class Replace : public Command {
 public:
-    explicit Replace(TextEditor *);
+    explicit Replace(SharedPtr<TextEditor>);
     void execute() override;
 };
 
 class Dump : public Command {
 public:
-    explicit Dump(TextEditor *);
+    explicit Dump(SharedPtr<TextEditor>);
     void execute() override;
 };
 

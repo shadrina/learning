@@ -9,6 +9,7 @@
 #include "Keys.h"
 #include "exceptions/Exception.h"
 
+
 class Parser {
 private:
     std::queue<std::string> args;
@@ -17,6 +18,7 @@ private:
 public:
     explicit Parser(std::ifstream *);
     std::string get_next_essential_arg();
+    unsigned int get_next_essential_int_arg();
     std::string get_command_args();
     bool end_of_desc();
     bool empty();

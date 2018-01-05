@@ -8,13 +8,12 @@
 
 class Workflow {
 private:
-    TextEditor *text;
-    std::map<std::string, Command *> commands;
+    SharedPtr<TextEditor> text;
+    std::map<std::string, SharedPtr<Command>> commands;
     std::map<unsigned int, std::string> blocks;
     std::queue<unsigned int> queue;
 public:
     Workflow();
-    ~Workflow();
     void parse_config(std::ifstream &);
     void work(std::string);
 };

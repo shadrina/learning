@@ -16,7 +16,6 @@ void TextEditor::write_file(const std::string &file_name) {
     int i = 0;
     while (i != strings.size()) {
         file << strings[i];
-        strings.erase(strings.begin() + i);
         i++;
     }
     file.close();

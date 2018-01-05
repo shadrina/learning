@@ -30,11 +30,7 @@ std::string Parser::get_next_essential_arg() {
         if (args.empty() && !end_of_desc_detected) throw WrongStructureException();
         next = args.front();
         if (next == BLOCK_END) throw WrongStructureException();
-        if (next == BLOCK_INITIALIZER) {
-            args.pop();
-            continue;
-        }
-        if (next == NODE_BOND) {
+        if (next == BLOCK_INITIALIZER || next == NODE_BOND) {
             args.pop();
             continue;
         }
@@ -42,6 +38,12 @@ std::string Parser::get_next_essential_arg() {
     }
     args.pop();
     return next;
+}
+
+unsigned int Parser::get_next_essential_int_arg() {
+    std::string arg = get_next_essential_arg();
+    if (!is_integer(arg)) throw WrongStructureException();
+    return static_cast<unsigned int>(atoll(arg.c_str()));
 }
 
 std::string Parser::get_command_args() {
@@ -64,3 +66,4 @@ bool Parser::empty() {
 bool Parser::end_of_desc() {
     return end_of_desc_detected;
 }
+

@@ -3,7 +3,7 @@
 
 Command::Command() = default;
 
-Command::Command(TextEditor *text_editor) : text(text_editor) {}
+Command::Command(SharedPtr<TextEditor> text_editor) : text(text_editor) {}
 
 void Command::read_args(std::string &s) {
     std::istringstream iss(s);
@@ -15,34 +15,34 @@ void Command::read_args(std::string &s) {
     }
 }
 
-Read::Read(TextEditor *text_editor) : Command(text_editor) {}
+Read::Read(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Read::execute() {
     if (args.empty()) throw NoParameterException("readfile");
     text->read_file(args.front());
 }
 
-Write::Write(TextEditor *text_editor) : Command(text_editor) {}
+Write::Write(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Write::execute() {
     if (args.empty()) throw NoParameterException("writefile");
     text->write_file(args.front());
 }
 
-Grep::Grep(TextEditor *text_editor) : Command(text_editor) {}
+Grep::Grep(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Grep::execute() {
     if (args.empty()) throw NoParameterException("grep");
     text->grep(args.front());
 }
 
-Sort::Sort(TextEditor *text_editor) : Command(text_editor) {}
+Sort::Sort(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Sort::execute() {
     text->sort();
 }
 
-Replace::Replace(TextEditor *text_editor) : Command(text_editor) {}
+Replace::Replace(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Replace::execute() {
     if (args.empty()) throw NoParameterException("replace");
@@ -56,7 +56,7 @@ void Replace::execute() {
     text->replace(arg1, arg2);
 }
 
-Dump::Dump(TextEditor *text_editor) : Command(text_editor) {}
+Dump::Dump(SharedPtr<TextEditor> text_editor) : Command(text_editor) {}
 
 void Dump::execute() {
     if (args.empty()) throw NoParameterException("dump");
