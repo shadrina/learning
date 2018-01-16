@@ -43,7 +43,7 @@ std::string Parser::get_next_essential_arg() {
 unsigned int Parser::get_next_essential_int_arg() {
     std::string arg = get_next_essential_arg();
     if (!is_integer(arg)) throw WrongStructureException();
-    return static_cast<unsigned int>(atoll(arg.c_str()));
+    return static_cast<unsigned int>(std::stoi(arg));
 }
 
 std::string Parser::get_command_args() {

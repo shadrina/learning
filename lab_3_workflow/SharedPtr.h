@@ -6,7 +6,7 @@ template <typename T>
 class SharedPtr {
 private:
     T *obj;
-    static int ref_counter;
+    int *ref_counter;
 public:
     SharedPtr();
     explicit SharedPtr(T *);
@@ -20,28 +20,30 @@ public:
 };
 
 template<typename T>
-int SharedPtr<T>::ref_counter = 0;
-
-template<typename T>
-SharedPtr<T>::SharedPtr() : obj(nullptr) {}
+SharedPtr<T>::SharedPtr() : obj(nullptr) {
+    ref_counter = new int(0);
+}
 
 template<typename T>
 SharedPtr<T>::SharedPtr(T *obj_) : obj(obj_) {
-    ref_counter++;
+    ref_counter = new int(1);
 }
 
 template<typename T>
 SharedPtr<T>::SharedPtr(const SharedPtr &ptr) {
     obj = ptr.obj;
-    this->ref_counter++;
+    ref_counter = ptr.ref_counter;
+    (*(this->ref_counter))++;
 }
 
 template<typename T>
 SharedPtr<T>::~SharedPtr() {
-    ref_counter--;
-    if (ref_counter == 0) {
+    (*ref_counter)--;
+    if (*ref_counter == 0) {
         delete obj;
+        delete ref_counter;
         obj = nullptr;
+        ref_counter = nullptr;
     }
 }
 
@@ -57,10 +59,14 @@ T & SharedPtr<T>::operator*() {
 
 template<typename T>
 SharedPtr<T> & SharedPtr<T>::operator=(const SharedPtr & ptr) {
-    if (ptr.obj != this->obj) {
-        if (ref_counter == 0) delete obj;
+    if (ptr.obj != this->obj && this != &ptr) {
+        (*ref_counter)--;
+        if (*ref_counter == 0) {
+            delete obj;
+            delete ref_counter;
+        }
         ref_counter = ptr.ref_counter;
-        ref_counter++;
+        (*ref_counter)++;
         obj = ptr.obj;
     }
     return *this;
