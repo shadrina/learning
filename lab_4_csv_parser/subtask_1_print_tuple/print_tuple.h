@@ -1,3 +1,6 @@
+#ifndef LAB_4_CSV_PARSER_PRINT_TUPLE_H
+#define LAB_4_CSV_PARSER_PRINT_TUPLE_H
+
 #include <tuple>
 #include <iostream>
 
@@ -32,9 +35,4 @@ std::ostream& operator<<(std::ostream& os, const std::tuple<T...> &tup) {
     return os << "]";
 }
 
-int main() {
-    std::cout << std::make_tuple(2, 3.14159F, 2345.678) << std::endl;
-    std::cout << std::make_tuple("hello", 5) << std::endl;
-    std::cout << std::make_tuple() << std::endl;
-    return 0;
-}
+#endif //LAB_4_CSV_PARSER_PRINT_TUPLE_H
